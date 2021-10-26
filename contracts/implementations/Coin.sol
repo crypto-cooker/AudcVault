@@ -14,12 +14,14 @@ contract StableCoinToken is ERC20, ICoin, Ownable {
         require(account != address(0), "ERC20: mint to the zero address");
         _beforeTokenTransfer(address(0), account, amount);
         _balances[account] += amount;
+        emit Transfer(address(0), account, amount);
+        _afterTokenTransfer(address(0), account, amount);
     }
     function burn(address account, uint256 amount) external override returns(bool){
         require(account != address(0), "ERC20: burn from the zero address");
         _beforeTokenTransfer(account, address(0), amount);
         _balances[account] -= amount;
+        emit Transfer(account, address(0), amount);
+        _afterTokenTransfer(account, address(0), amount);
     }
-
-    function _beforeTokenTransfer(address from, address to, uint256 amount) internal virtual { }
 }
